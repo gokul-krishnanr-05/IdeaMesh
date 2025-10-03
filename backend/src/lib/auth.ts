@@ -9,6 +9,7 @@ dotenv.config();
 
 const client = new MongoClient(process.env.MONGODB_URL as string);
 const db = client.db();
+const trustedOrigin = process.env.FRONTEND_URL as string || window.location.origin;
 
 export const auth = betterAuth({
     database: mongodbAdapter(db, {
@@ -28,7 +29,7 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }
     },
-    trustedOrigins:[],
+    trustedOrigins:[trustedOrigin],
     advanced: {
         defaultCookieAttributes: {
             sameSite: "none",
